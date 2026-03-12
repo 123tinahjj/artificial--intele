@@ -653,6 +653,8 @@
             color: var(--accent-gold);
             font-size: clamp(12px, 3vw, 14px);
             overflow-x: auto;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
         .premium-btn {
@@ -671,6 +673,11 @@
         .premium-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .update-btn {
+            background: #FFA500;
+            margin-right: 5px;
         }
 
         /* Input Area */
@@ -718,6 +725,14 @@
         /* Utility Classes */
         .hidden {
             display: none !important;
+        }
+
+        /* Memory Limit Info */
+        .memory-limit {
+            color: var(--accent-gold);
+            font-size: 11px;
+            margin-top: 5px;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -804,7 +819,7 @@
         <div class="chat-premium" id="chatArea">
             <div class="message bot-message">
                 <div class="message-bubble">
-                    👋 مرحباً! أنا صفحتك البيضاء
+                    👋 مرحباً! أنا Cerebonix - صفحتك البيضاء
                 </div>
             </div>
         </div>
@@ -822,7 +837,9 @@
                     <input type="text" id="teachQ" placeholder="السؤال...">
                     <input type="text" id="teachA" placeholder="الجواب...">
                     <button class="premium-btn" onclick="teachEasy()">تعليم</button>
+                    <button class="premium-btn update-btn" onclick="updateKnowledge()">🔄 تحديث</button>
                 </div>
+                <div class="memory-limit" id="memoryInfo">🧠 سعة غير محدودة</div>
             </div>
 
             <div class="tab-content" id="advancedTab">
@@ -849,14 +866,15 @@
 
         <!-- الإحصائيات -->
         <div class="stats-premium" id="stats">
-            <span>📚 تعلمت <span id="knowledgeCount">0</span></span>
-            <span>❤️ Cerebonix</span>
+            <span>📚 تعلمت <span id="knowledgeCount">0</span> معلومة</span>
+            <span>❤️ Cerebonix - ذاكرة غير محدودة</span>
         </div>
     </div>
 
     <script>
         let knowledgeBase = {};
         let currentUser = null;
+        let maxMemory = 10000000; // 10 ملايين معلومة - عملياً غير محدود
 
         // التحقق من وجود جلسة سابقة عند تحميل الصفحة
         (function checkSavedSession() {
@@ -877,7 +895,7 @@
                     }
                     
                     // تسجيل الدخول تلقائياً
-                    login(true); // true تعني أنه تسجيل دخول تلقائي
+                    login(true);
                 }
             }
         })();
@@ -911,7 +929,7 @@
             }
         }
 
-        // النطق بالصوت
+        // النطق بالصوت - الآن فقط عند الضغط على الزر
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -943,7 +961,7 @@
             const saved = localStorage.getItem('user_' + phone);
             if (saved) {
                 currentUser = JSON.parse(saved);
-                currentUser.name = name; // تحديث الاسم إذا تغير
+                currentUser.name = name;
                 if (profileImg && profileImg !== '') currentUser.profileImage = profileImg;
                 knowledgeBase = currentUser.knowledge || {};
             } else {
@@ -956,11 +974,9 @@
                 knowledgeBase = {};
             }
 
-            // حفظ آخر مستخدم سجل دخول
             localStorage.setItem('lastLoggedInUser', phone);
             saveData();
 
-            // تحديث الواجهة
             document.getElementById('displayName').textContent = currentUser.name;
             document.getElementById('displayPhone').textContent = currentUser.phone;
             
@@ -973,21 +989,20 @@
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('mainScreen').classList.remove('hidden');
 
-            // رسالة ترحيب فقط إذا لم يكن تسجيل دخول تلقائي
             if (!isAutoLogin) {
                 setTimeout(() => {
                     const welcome = `أهلاً بك يا ${currentUser.name}، أنا Cerebonix، جاهز لأحفظ كل شيء`;
                     addMessage(welcome, 'bot');
-                    speak(welcome);
+                    // لا صوت تلقائي
                 }, 500);
             } else {
-                // رسالة ترحيب بسيطة للتسجيل التلقائي
                 setTimeout(() => {
                     addMessage(`مرحباً بعودتك يا ${currentUser.name} 👋`, 'bot');
                 }, 500);
             }
 
             updateStats();
+            updateMemoryInfo();
         }
 
         // إضافة رسالة
@@ -1006,7 +1021,7 @@
                 const speakBtn = document.createElement('button');
                 speakBtn.className = 'speak-btn';
                 speakBtn.innerHTML = '🔊 استمع';
-                speakBtn.onclick = () => speak(text);
+                speakBtn.onclick = () => speak(text); // الصوت فقط عند الضغط
                 msgDiv.appendChild(speakBtn);
             }
             
@@ -1023,6 +1038,25 @@
             
             addMessage(msg, 'user');
             
+            // التحقق من وجود طلب تحديث
+            if (msg.includes('غير') || msg.includes('حدث') || msg.includes('عدل')) {
+                const parts = msg.split(' ');
+                for (let i = 0; i < parts.length; i++) {
+                    for (let key in knowledgeBase) {
+                        if (msg.includes(key)) {
+                            const response = `المعلومة "${key}" موجودة. ماذا تريد أن أحدثها إلى؟`;
+                            setTimeout(() => {
+                                addMessage(response, 'bot');
+                                // تخزين مؤقت للكلمة المراد تحديثها
+                                window.pendingUpdate = key;
+                            }, 500);
+                            input.value = '';
+                            return;
+                        }
+                    }
+                }
+            }
+            
             let response = null;
             for (let key in knowledgeBase) {
                 if (msg.includes(key)) {
@@ -1037,25 +1071,57 @@
             
             setTimeout(() => {
                 addMessage(response, 'bot');
-                speak(response);
+                // لا صوت تلقائي
             }, 500);
             
             input.value = '';
         }
 
-        // التعليم السهل
+        // تحديث المعلومة
+        function updateKnowledge() {
+            const q = document.getElementById('teachQ').value.trim();
+            const a = document.getElementById('teachA').value.trim();
+            
+            if (q && a) {
+                if (knowledgeBase[q]) {
+                    const oldValue = knowledgeBase[q];
+                    knowledgeBase[q] = a;
+                    saveData();
+                    addMessage(`✅ تم تحديث "${q}" من "${oldValue}" إلى "${a}"`, 'bot');
+                } else {
+                    knowledgeBase[q] = a;
+                    saveData();
+                    addMessage(`✅ تمت إضافة "${q}" جديدة`, 'bot');
+                }
+                document.getElementById('teachQ').value = '';
+                document.getElementById('teachA').value = '';
+                updateStats();
+                updateCodeDisplay();
+                updateMemoryInfo();
+            }
+        }
+
+        // التعليم السهل (مع دعم التحديث)
         function teachEasy() {
             const q = document.getElementById('teachQ').value.trim();
             const a = document.getElementById('teachA').value.trim();
             
             if (q && a) {
-                knowledgeBase[q] = a;
-                saveData();
-                addMessage(`✅ تعلمت: "${q}"`, 'bot');
+                if (knowledgeBase[q]) {
+                    if (confirm(`المعلومة "${q}" موجودة مسبقاً بقيمة "${knowledgeBase[q]}". هل تريد تحديثها؟`)) {
+                        knowledgeBase[q] = a;
+                        addMessage(`✅ تم تحديث "${q}"`, 'bot');
+                    }
+                } else {
+                    knowledgeBase[q] = a;
+                    addMessage(`✅ تعلمت: "${q}"`, 'bot');
+                }
                 document.getElementById('teachQ').value = '';
                 document.getElementById('teachA').value = '';
+                saveData();
                 updateStats();
                 updateCodeDisplay();
+                updateMemoryInfo();
             }
         }
 
@@ -1065,12 +1131,23 @@
             const match = rule.match(/إذا قال (.*?) قل (.*)/);
             
             if (match) {
-                knowledgeBase[match[1].trim()] = match[2].trim();
-                saveData();
-                addMessage(`✅ تمت الإضافة`, 'bot');
+                const key = match[1].trim();
+                const value = match[2].trim();
+                
+                if (knowledgeBase[key]) {
+                    if (confirm(`المعلومة "${key}" موجودة مسبقاً. هل تريد تحديثها؟`)) {
+                        knowledgeBase[key] = value;
+                        addMessage(`✅ تم تحديث "${key}"`, 'bot');
+                    }
+                } else {
+                    knowledgeBase[key] = value;
+                    addMessage(`✅ تمت الإضافة`, 'bot');
+                }
                 document.getElementById('advancedRule').value = '';
+                saveData();
                 updateStats();
                 updateCodeDisplay();
+                updateMemoryInfo();
             } else {
                 alert('الصيغة الصحيحة: إذا قال [كلمة] قل [رد]');
             }
@@ -1083,20 +1160,30 @@
             knowledgeBase["مساء الخير"] = "مساء الورد";
             knowledgeBase["كيف حالك"] = "الحمدلله";
             knowledgeBase["أحبك"] = "وأنا أيضاً أحبك ❤️";
+            knowledgeBase["كم عمري"] = "عمرك 25 سنة";
+            knowledgeBase["ما اسمي"] = "اسمك " + (currentUser ? currentUser.name : "unknown");
             
             saveData();
-            addMessage("✅ تمت إضافة 5 أمثلة", 'bot');
+            addMessage("✅ تمت إضافة 7 أمثلة", 'bot');
             updateStats();
             updateCodeDisplay();
+            updateMemoryInfo();
         }
 
         // عرض الذاكرة
         function showKnowledge() {
             let text = "📚 **ذاكرتي:**\n\n";
+            let count = 0;
             for (let key in knowledgeBase) {
                 text += `✨ "${key}" → "${knowledgeBase[key]}"\n`;
+                count++;
+                if (count > 50) {
+                    text += `\n... و ${Object.keys(knowledgeBase).length - 50} معلومة أخرى`;
+                    break;
+                }
             }
-            text += `\n📊 المجموع: ${Object.keys(knowledgeBase).length}`;
+            text += `\n\n📊 المجموع: ${Object.keys(knowledgeBase).length} معلومة`;
+            text += `\n🧠 السعة: غير محدودة (${maxMemory.toLocaleString()} كحد أقصى نظري)`;
             addMessage(text, 'bot');
         }
 
@@ -1104,10 +1191,27 @@
         function updateCodeDisplay() {
             const codeDisplay = document.getElementById('codeDisplay');
             let codeText = '';
+            let count = 0;
             for (let key in knowledgeBase) {
                 codeText += `knowledgeBase["${key}"] = "${knowledgeBase[key]}";\n`;
+                count++;
+                if (count > 20) {
+                    codeText += `// ... و ${Object.keys(knowledgeBase).length - 20} معلومة أخرى`;
+                    break;
+                }
             }
             codeDisplay.textContent = codeText || '// معرفتك ستظهر هنا';
+        }
+
+        // تحديث معلومات الذاكرة
+        function updateMemoryInfo() {
+            const count = Object.keys(knowledgeBase).length;
+            const memoryInfo = document.getElementById('memoryInfo');
+            const percent = (count / maxMemory * 100).toFixed(4);
+            memoryInfo.innerHTML = `🧠 سعة غير محدودة: ${count.toLocaleString()} معلومة محفوظة (${percent}% من السعة النظرية)`;
+            
+            const statsSpan = document.getElementById('stats').querySelector('span:first-child');
+            statsSpan.innerHTML = `📚 تعلمت <span id="knowledgeCount">${count}</span> ${count === 1 ? 'معلومة' : 'معلومة'}`;
         }
 
         // حفظ البيانات
@@ -1130,7 +1234,6 @@
             document.getElementById('mainScreen').classList.add('hidden');
             document.getElementById('loginScreen').style.display = 'block';
             currentUser = null;
-            // لا نحذف lastLoggedInUser عشان نقدر نستخدمه في المرة الجاية
         }
 
         // تبديل تبويبات التعليم
@@ -1138,7 +1241,6 @@
             document.querySelectorAll('.tab-premium').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            // تحديد العنصر الذي تم النقر عليه
             const tabs = document.querySelectorAll('.tab-premium');
             let clickedTab;
             if (tab === 'easy') clickedTab = tabs[0];
@@ -1194,12 +1296,10 @@
             html.lang = newLang;
             html.dir = newLang === 'ar' ? 'rtl' : 'ltr';
             
-            // تحديث النصوص بناءً على اللغة
             updateUILanguage(newLang);
         }
 
         function updateUILanguage(lang) {
-            // تحديث النصوص الثابتة
             if (lang === 'en') {
                 document.querySelector('.logo-sub').textContent = 'Your White Page';
                 document.querySelector('.welcome-premium p:first-child').textContent = 'I am an AI';
@@ -1208,19 +1308,19 @@
                 document.querySelectorAll('.input-premium label')[0].innerHTML = '📱 Phone Number';
                 document.querySelectorAll('.input-premium label')[1].innerHTML = '👤 Name';
                 document.querySelector('.login-premium-btn').textContent = 'Start Your Journey';
-                document.querySelector('.footer-premium span').textContent = '✨';
                 
-                // تحديث التبويبات
                 document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 Easy';
                 document.querySelectorAll('.tab-premium')[1].innerHTML = '⚡ Advanced';
                 document.querySelectorAll('.tab-premium')[2].innerHTML = '💻 Code';
                 
-                // تحديث الأزرار
                 document.querySelector('.header-actions button:nth-child(1)').innerHTML = '🌐 EN/Ar';
                 
-                // تحديث مكان الإدخال
                 document.querySelector('.premium-btn[onclick="sendMessage()"]').textContent = 'Send';
                 document.querySelector('.premium-btn[onclick="showKnowledge()"]').textContent = '📖 Memory';
+                document.querySelector('.premium-btn[onclick="teachEasy()"]').textContent = 'Teach';
+                document.querySelector('.premium-btn.update-btn').innerHTML = '🔄 Update';
+                document.querySelector('.stats-premium span:last-child').innerHTML = '❤️ Cerebonix - Unlimited Memory';
+                document.getElementById('memoryInfo').innerHTML = '🧠 Unlimited capacity';
             } else {
                 document.querySelector('.logo-sub').textContent = 'صفحتك البيضاء';
                 document.querySelector('.welcome-premium p:first-child').textContent = 'أنا ذكاء اصطناعي';
@@ -1229,7 +1329,6 @@
                 document.querySelectorAll('.input-premium label')[0].innerHTML = '📱 رقم الهاتف';
                 document.querySelectorAll('.input-premium label')[1].innerHTML = '👤 الاسم';
                 document.querySelector('.login-premium-btn').textContent = 'ابدأ رحلتك';
-                document.querySelector('.footer-premium span').textContent = '✨';
                 
                 document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 سهل';
                 document.querySelectorAll('.tab-premium')[1].innerHTML = '⚡ متقدم';
@@ -1239,12 +1338,18 @@
                 
                 document.querySelector('.premium-btn[onclick="sendMessage()"]').textContent = 'إرسال';
                 document.querySelector('.premium-btn[onclick="showKnowledge()"]').textContent = '📖 ذاكرتي';
+                document.querySelector('.premium-btn[onclick="teachEasy()"]').textContent = 'تعليم';
+                document.querySelector('.premium-btn.update-btn').innerHTML = '🔄 تحديث';
+                document.querySelector('.stats-premium span:last-child').innerHTML = '❤️ Cerebonix - ذاكرة غير محدودة';
+                
+                const count = Object.keys(knowledgeBase).length;
+                document.getElementById('memoryInfo').innerHTML = `🧠 سعة غير محدودة: ${count.toLocaleString()} معلومة محفوظة`;
             }
         }
 
         // بدء التشغيل
         createParticles();
-        updateUILanguage('ar'); // تأكد من اللغة العربية عند البداية
+        updateUILanguage('ar');
     </script>
 </body>
 </html>
