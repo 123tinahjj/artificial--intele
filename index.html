@@ -26,6 +26,8 @@
             --text-secondary: #888888;
             --border-color: rgba(255, 215, 0, 0.2);
             --font-family: 'Cairo', 'Poppins', sans-serif;
+            --message-user-bg: linear-gradient(145deg, #FFD700, #FFA500);
+            --message-bot-bg: #2a2a2a;
         }
 
         /* English Language Style */
@@ -97,7 +99,10 @@
         }
 
         .main-premium {
-            max-width: 1200px; /* Larger max width for main screen */
+            max-width: 1400px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
         }
 
         @keyframes premiumAppear {
@@ -376,7 +381,7 @@
         /* Main Screen Header */
         .header-premium {
             background: var(--bg-secondary);
-            padding: clamp(15px, 3vw, 25px) clamp(20px, 4vw, 35px);
+            padding: clamp(15px, 2vw, 20px) clamp(20px, 3vw, 30px);
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
@@ -393,14 +398,14 @@
         }
 
         .user-avatar-premium {
-            width: clamp(50px, 10vw, 60px);
-            height: clamp(50px, 10vw, 60px);
+            width: clamp(50px, 8vw, 60px);
+            height: clamp(50px, 8vw, 60px);
             border-radius: 20px;
             background: linear-gradient(145deg, var(--accent-gold), var(--accent-orange));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(20px, 5vw, 24px);
+            font-size: clamp(20px, 4vw, 24px);
             color: #000;
             font-weight: 900;
             overflow: hidden;
@@ -415,13 +420,13 @@
 
         .user-text-premium h3 {
             color: var(--accent-gold);
-            font-size: clamp(18px, 4vw, 22px);
+            font-size: clamp(18px, 3vw, 22px);
             margin-bottom: 3px;
         }
 
         .user-text-premium p {
             color: var(--text-secondary);
-            font-size: clamp(12px, 3vw, 14px);
+            font-size: clamp(12px, 2.5vw, 14px);
         }
 
         .header-actions {
@@ -434,12 +439,12 @@
             background: var(--bg-tertiary);
             border: 1px solid #3a3a3a;
             color: var(--text-primary);
-            padding: clamp(8px, 2vw, 12px) clamp(15px, 3vw, 25px);
+            padding: clamp(8px, 1.5vw, 12px) clamp(15px, 2.5vw, 25px);
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
-            font-size: clamp(12px, 3vw, 14px);
+            font-size: clamp(12px, 2.5vw, 14px);
         }
 
         .header-btn:hover {
@@ -513,20 +518,39 @@
             border: none;
         }
 
-        /* Chat Area */
+        /* Chat Area - محسنة */
         .chat-premium {
-            height: clamp(250px, 40vh, 350px);
+            flex: 1;
             overflow-y: auto;
-            padding: clamp(15px, 3vw, 25px);
+            padding: clamp(20px, 3vw, 30px);
             background: var(--bg-secondary);
             background-size: cover;
             background-position: center;
             transition: background-color 0.3s, background-image 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-premium::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-premium::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+        }
+
+        .chat-premium::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 10px;
         }
 
         .message {
-            margin-bottom: 15px;
             display: flex;
+            margin-bottom: 10px;
+            animation: messagePop 0.3s ease;
         }
 
         .user-message {
@@ -538,30 +562,40 @@
         }
 
         .message-bubble {
-            max-width: min(85%, 400px);
-            padding: clamp(10px, 2.5vw, 15px) clamp(15px, 3vw, 25px);
+            max-width: min(70%, 600px);
+            padding: clamp(12px, 2vw, 18px) clamp(18px, 3vw, 28px);
             border-radius: 30px;
-            font-size: clamp(13px, 3.2vw, 15px);
-            line-height: 1.5;
-            animation: messagePop 0.4s ease;
+            font-size: clamp(14px, 2.5vw, 16px);
+            line-height: 1.6;
             word-wrap: break-word;
-        }
-
-        @keyframes messagePop {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
         .user-message .message-bubble {
-            background: linear-gradient(145deg, var(--accent-gold), var(--accent-orange));
+            background: var(--message-user-bg);
             color: #000;
             font-weight: 600;
+            border-bottom-right-radius: 5px;
         }
 
         .bot-message .message-bubble {
-            background: var(--bg-tertiary);
+            background: var(--message-bot-bg);
             color: var(--text-primary);
             border: 1px solid #3a3a3a;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        @keyframes messagePop {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .speak-btn {
@@ -573,8 +607,8 @@
             margin-top: 5px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: clamp(10px, 2.5vw, 12px);
-            display: block;
+            font-size: clamp(10px, 2vw, 12px);
+            display: inline-block;
         }
 
         .speak-btn:hover {
@@ -582,23 +616,23 @@
             color: #000;
         }
 
-        /* Teaching Section */
+        /* Teaching Section - مبسطة */
         .teaching-premium {
-            padding: clamp(15px, 3vw, 25px);
+            padding: clamp(10px, 2vw, 15px) clamp(15px, 2.5vw, 25px);
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
         }
 
         .teaching-tabs {
             display: flex;
-            gap: clamp(5px, 1.5vw, 10px);
-            margin-bottom: 20px;
+            gap: clamp(5px, 1vw, 10px);
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .tab-premium {
             flex: 1 1 auto;
-            padding: clamp(10px, 2vw, 15px);
+            padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
             background: var(--bg-tertiary);
             border: 1px solid #3a3a3a;
             border-radius: 30px;
@@ -606,8 +640,8 @@
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
-            font-size: clamp(12px, 3vw, 14px);
-            min-width: 80px;
+            font-size: clamp(12px, 2.5vw, 14px);
+            min-width: 70px;
         }
 
         .tab-premium.active {
@@ -628,16 +662,17 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .teach-inputs input {
             flex: 1 1 200px;
-            padding: clamp(12px, 2.5vw, 15px);
+            padding: clamp(10px, 2vw, 14px);
             background: var(--bg-tertiary);
             border: 2px solid #3a3a3a;
             border-radius: 30px;
             color: var(--text-primary);
-            font-size: clamp(13px, 3.2vw, 14px);
+            font-size: clamp(13px, 2.5vw, 14px);
         }
 
         .teach-inputs input:focus {
@@ -645,46 +680,47 @@
             outline: none;
         }
 
-        .code-premium {
-            background: #000;
-            border-radius: 30px;
-            padding: 20px;
-            font-family: monospace;
-            color: var(--accent-gold);
-            font-size: clamp(12px, 3vw, 14px);
-            overflow-x: auto;
-            max-height: 150px;
-            overflow-y: auto;
+        /* Reminders Section */
+        .reminders-premium {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 20px;
         }
 
-        .premium-btn {
-            background: var(--accent-gold);
-            color: #000;
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 15px;
+        }
+
+        .reminder-item input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 10px;
             border: none;
-            padding: clamp(12px, 2.5vw, 15px) clamp(20px, 4vw, 30px);
-            border-radius: 40px;
-            font-weight: 800;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .reminder-item button {
+            padding: 8px 15px;
+            background: var(--accent-gold);
+            border: none;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: clamp(13px, 3.2vw, 14px);
-            white-space: nowrap;
-        }
-
-        .premium-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        }
-
-        .update-btn {
-            background: #FFA500;
-            margin-right: 5px;
+            font-weight: 600;
         }
 
         /* Input Area */
         .input-premium-area {
             display: flex;
             gap: 10px;
-            padding: clamp(15px, 3vw, 20px);
+            padding: clamp(12px, 2vw, 20px) clamp(15px, 2.5vw, 25px);
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
             flex-wrap: wrap;
@@ -692,12 +728,12 @@
 
         .input-premium-area input {
             flex: 1 1 250px;
-            padding: clamp(12px, 2.5vw, 15px) clamp(20px, 4vw, 25px);
+            padding: clamp(12px, 2vw, 16px) clamp(18px, 3vw, 25px);
             background: var(--bg-tertiary);
             border: 2px solid #3a3a3a;
             border-radius: 40px;
             color: var(--text-primary);
-            font-size: clamp(14px, 3.5vw, 16px);
+            font-size: clamp(14px, 2.5vw, 16px);
         }
 
         .input-premium-area input:focus {
@@ -707,13 +743,13 @@
 
         /* Stats */
         .stats-premium {
-            padding: clamp(10px, 2vw, 15px) clamp(15px, 3vw, 25px);
+            padding: clamp(8px, 1.5vw, 12px) clamp(15px, 2.5vw, 25px);
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
             color: var(--text-secondary);
             display: flex;
             justify-content: space-between;
-            font-size: clamp(12px, 3vw, 14px);
+            font-size: clamp(12px, 2.5vw, 14px);
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -733,6 +769,15 @@
             font-size: 11px;
             margin-top: 5px;
             opacity: 0.8;
+        }
+
+        /* Calculator Result */
+        .calc-result {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-top: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -815,7 +860,7 @@
             <input type="color" id="bgColor" onchange="setChatColor(this.value)" style="width: 100%; height: 50px; border-radius: 20px;">
         </div>
 
-        <!-- منطقة الشات -->
+        <!-- منطقة الشات - محسنة وأكبر -->
         <div class="chat-premium" id="chatArea">
             <div class="message bot-message">
                 <div class="message-bubble">
@@ -824,36 +869,36 @@
             </div>
         </div>
 
-        <!-- منطقة التعليم -->
+        <!-- منطقة التعليم المبسطة -->
         <div class="teaching-premium">
             <div class="teaching-tabs">
-                <button class="tab-premium active" onclick="switchTeachTab('easy')">📚 سهل</button>
-                <button class="tab-premium" onclick="switchTeachTab('advanced')">⚡ متقدم</button>
-                <button class="tab-premium" onclick="switchTeachTab('code')">💻 كود</button>
+                <button class="tab-premium active" onclick="switchTeachTab('easy')">📚 تعليم</button>
+                <button class="tab-premium" onclick="switchTeachTab('reminders')">⏰ تذكيرات</button>
             </div>
 
             <div class="tab-content active" id="easyTab">
                 <div class="teach-inputs">
+                    <!-- ========== مكان السؤال ========== -->
                     <input type="text" id="teachQ" placeholder="السؤال...">
+                    <!-- ========== مكان الجواب ========== -->
                     <input type="text" id="teachA" placeholder="الجواب...">
                     <button class="premium-btn" onclick="teachEasy()">تعليم</button>
-                    <button class="premium-btn update-btn" onclick="updateKnowledge()">🔄 تحديث</button>
                 </div>
-                <div class="memory-limit" id="memoryInfo">🧠 سعة غير محدودة</div>
-            </div>
-
-            <div class="tab-content" id="advancedTab">
-                <div class="teach-inputs">
-                    <input type="text" id="advancedRule" placeholder="إذا قال ... قل ...">
-                    <button class="premium-btn" onclick="teachAdvanced()">إضافة</button>
+                <!-- ========== المعرفة العامة (لأي شخص) ========== -->
+                <div class="memory-limit" style="margin-top: 10px; color: #FFD700;">
+                    📚 المعرفة العامة: سؤال عام يجيب للجميع
                 </div>
             </div>
 
-            <div class="tab-content" id="codeTab">
-                <div class="code-premium" id="codeDisplay">
-                    // معرفتك ستظهر هنا
+            <div class="tab-content" id="remindersTab">
+                <div class="reminders-premium">
+                    <div class="reminder-item">
+                        <input type="text" id="reminderText" placeholder="ماذا تذكرني؟">
+                        <input type="datetime-local" id="reminderTime">
+                        <button onclick="addReminder()">➕ إضافة</button>
+                    </div>
+                    <div id="remindersList"></div>
                 </div>
-                <button class="premium-btn" onclick="addExamples()" style="margin-top: 15px; width: 100%;">➕ إضافة أمثلة</button>
             </div>
         </div>
 
@@ -861,7 +906,6 @@
         <div class="input-premium-area">
             <input type="text" id="userMessage" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter') sendMessage()">
             <button class="premium-btn" onclick="sendMessage()">إرسال</button>
-            <button class="premium-btn" onclick="showKnowledge()">📖 ذاكرتي</button>
         </div>
 
         <!-- الإحصائيات -->
@@ -872,9 +916,30 @@
     </div>
 
     <script>
+        // ========== المعرفة العامة (لأي شخص) ==========
+        // أضف هنا الأسئلة والأجوبة العامة التي تريد أن يجيب عنها الذكاء لأي شخص
+        const publicKnowledge = {
+            // مثال: "ما اسمك": "اسمي Cerebonix",
+            // "كم الساعة": "يمكنك رؤية الوقت في جهازك",
+            // أضف ما تشاء هنا
+            "السلام عليكم": "وعليكم السلام ورحمة الله وبركاته",
+            "كيف حالك": "الحمد لله، بخير، كيف يمكنني مساعدتك؟",
+            "ما اسمك": "اسمي Cerebonix، أنا ذكاء اصطناعي",
+            "من صنعك": "صنعني مطوري لأكون صفحتك البيضاء",
+            "شكرا": "العفو، دائماً في خدمتك ❤️",
+            "3×3": "3 × 3 = 9",
+            "5+7": "5 + 7 = 12",
+            "10-4": "10 - 4 = 6",
+            "20/5": "20 ÷ 5 = 4",
+            "كم عمرك": "عمري لحظة خلقها أنت",
+            "ما هي مهمتك": "مهمتي أن أحفظ كل ما تعلمني وأذكرك به"
+        };
+
         let knowledgeBase = {};
         let currentUser = null;
-        let maxMemory = 10000000; // 10 ملايين معلومة - عملياً غير محدود
+        let maxMemory = 10000000;
+        let reminders = [];
+        let reminderInterval = null;
 
         // التحقق من وجود جلسة سابقة عند تحميل الصفحة
         (function checkSavedSession() {
@@ -884,6 +949,7 @@
                 if (savedUserData) {
                     currentUser = JSON.parse(savedUserData);
                     knowledgeBase = currentUser.knowledge || {};
+                    reminders = currentUser.reminders || [];
                     
                     // تعبئة بيانات تسجيل الدخول تلقائياً
                     document.getElementById('phoneNumber').value = currentUser.phone;
@@ -895,7 +961,7 @@
                     }
                     
                     // تسجيل الدخول تلقائياً
-                    login(true);
+                    setTimeout(() => login(true), 100);
                 }
             }
         })();
@@ -929,7 +995,7 @@
             }
         }
 
-        // النطق بالصوت - الآن فقط عند الضغط على الزر
+        // النطق بالصوت
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -962,16 +1028,21 @@
             if (saved) {
                 currentUser = JSON.parse(saved);
                 currentUser.name = name;
-                if (profileImg && profileImg !== '') currentUser.profileImage = profileImg;
+                if (profileImg && profileImg !== '' && profileImg !== window.location.href) {
+                    currentUser.profileImage = profileImg;
+                }
                 knowledgeBase = currentUser.knowledge || {};
+                reminders = currentUser.reminders || [];
             } else {
                 currentUser = {
                     phone: phone,
                     name: name,
-                    profileImage: profileImg || '',
-                    knowledge: {}
+                    profileImage: (profileImg && profileImg !== window.location.href) ? profileImg : '',
+                    knowledge: {},
+                    reminders: []
                 };
                 knowledgeBase = {};
+                reminders = [];
             }
 
             localStorage.setItem('lastLoggedInUser', phone);
@@ -993,7 +1064,6 @@
                 setTimeout(() => {
                     const welcome = `أهلاً بك يا ${currentUser.name}، أنا Cerebonix، جاهز لأحفظ كل شيء`;
                     addMessage(welcome, 'bot');
-                    // لا صوت تلقائي
                 }, 500);
             } else {
                 setTimeout(() => {
@@ -1002,7 +1072,8 @@
             }
 
             updateStats();
-            updateMemoryInfo();
+            updateRemindersList();
+            startReminderChecker();
         }
 
         // إضافة رسالة
@@ -1015,18 +1086,41 @@
             bubble.className = 'message-bubble';
             bubble.textContent = text;
             
+            const time = document.createElement('div');
+            time.className = 'message-time';
+            time.textContent = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+            
             msgDiv.appendChild(bubble);
+            msgDiv.appendChild(time);
             
             if (sender === 'bot') {
                 const speakBtn = document.createElement('button');
                 speakBtn.className = 'speak-btn';
                 speakBtn.innerHTML = '🔊 استمع';
-                speakBtn.onclick = () => speak(text); // الصوت فقط عند الضغط
+                speakBtn.onclick = () => speak(text);
                 msgDiv.appendChild(speakBtn);
             }
             
             chatArea.appendChild(msgDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // دالة حساب العمليات الحسابية
+        function calculateMath(expression) {
+            // تنظيف التعبير
+            expression = expression.replace(/[^0-9+\-*/().]/g, '');
+            try {
+                // التأكد من أنه تعبير رياضي صالح
+                if (expression.match(/[0-9+\-*/().]/) && !expression.match(/[a-zA-Z]/)) {
+                    const result = eval(expression);
+                    if (typeof result === 'number' && !isNaN(result)) {
+                        return `${expression} = ${result}`;
+                    }
+                }
+            } catch (e) {
+                return null;
+            }
+            return null;
         }
 
         // إرسال رسالة
@@ -1038,25 +1132,15 @@
             
             addMessage(msg, 'user');
             
-            // التحقق من وجود طلب تحديث
-            if (msg.includes('غير') || msg.includes('حدث') || msg.includes('عدل')) {
-                const parts = msg.split(' ');
-                for (let i = 0; i < parts.length; i++) {
-                    for (let key in knowledgeBase) {
-                        if (msg.includes(key)) {
-                            const response = `المعلومة "${key}" موجودة. ماذا تريد أن أحدثها إلى؟`;
-                            setTimeout(() => {
-                                addMessage(response, 'bot');
-                                // تخزين مؤقت للكلمة المراد تحديثها
-                                window.pendingUpdate = key;
-                            }, 500);
-                            input.value = '';
-                            return;
-                        }
-                    }
-                }
+            // التحقق من العمليات الحسابية
+            const mathResult = calculateMath(msg);
+            if (mathResult) {
+                setTimeout(() => addMessage(mathResult, 'bot'), 500);
+                input.value = '';
+                return;
             }
             
+            // التحقق من المعرفة الخاصة بالمستخدم أولاً
             let response = null;
             for (let key in knowledgeBase) {
                 if (msg.includes(key)) {
@@ -1065,43 +1149,25 @@
                 }
             }
             
+            // إذا لم يجد في المعرفة الخاصة، يبحث في المعرفة العامة
+            if (!response) {
+                for (let key in publicKnowledge) {
+                    if (msg.includes(key)) {
+                        response = publicKnowledge[key];
+                        break;
+                    }
+                }
+            }
+            
             if (!response) {
                 response = `لم أتعلم هذا بعد يا ${currentUser ? currentUser.name : ''}`;
             }
             
-            setTimeout(() => {
-                addMessage(response, 'bot');
-                // لا صوت تلقائي
-            }, 500);
-            
+            setTimeout(() => addMessage(response, 'bot'), 500);
             input.value = '';
         }
 
-        // تحديث المعلومة
-        function updateKnowledge() {
-            const q = document.getElementById('teachQ').value.trim();
-            const a = document.getElementById('teachA').value.trim();
-            
-            if (q && a) {
-                if (knowledgeBase[q]) {
-                    const oldValue = knowledgeBase[q];
-                    knowledgeBase[q] = a;
-                    saveData();
-                    addMessage(`✅ تم تحديث "${q}" من "${oldValue}" إلى "${a}"`, 'bot');
-                } else {
-                    knowledgeBase[q] = a;
-                    saveData();
-                    addMessage(`✅ تمت إضافة "${q}" جديدة`, 'bot');
-                }
-                document.getElementById('teachQ').value = '';
-                document.getElementById('teachA').value = '';
-                updateStats();
-                updateCodeDisplay();
-                updateMemoryInfo();
-            }
-        }
-
-        // التعليم السهل (مع دعم التحديث)
+        // التعليم السهل
         function teachEasy() {
             const q = document.getElementById('teachQ').value.trim();
             const a = document.getElementById('teachA').value.trim();
@@ -1120,104 +1186,85 @@
                 document.getElementById('teachA').value = '';
                 saveData();
                 updateStats();
-                updateCodeDisplay();
-                updateMemoryInfo();
             }
         }
 
-        // التعليم المتقدم
-        function teachAdvanced() {
-            const rule = document.getElementById('advancedRule').value.trim();
-            const match = rule.match(/إذا قال (.*?) قل (.*)/);
+        // إضافة تذكير
+        function addReminder() {
+            const text = document.getElementById('reminderText').value.trim();
+            const time = document.getElementById('reminderTime').value;
             
-            if (match) {
-                const key = match[1].trim();
-                const value = match[2].trim();
-                
-                if (knowledgeBase[key]) {
-                    if (confirm(`المعلومة "${key}" موجودة مسبقاً. هل تريد تحديثها؟`)) {
-                        knowledgeBase[key] = value;
-                        addMessage(`✅ تم تحديث "${key}"`, 'bot');
-                    }
-                } else {
-                    knowledgeBase[key] = value;
-                    addMessage(`✅ تمت الإضافة`, 'bot');
-                }
-                document.getElementById('advancedRule').value = '';
+            if (text && time) {
+                const reminder = {
+                    id: Date.now(),
+                    text: text,
+                    time: time,
+                    completed: false
+                };
+                reminders.push(reminder);
                 saveData();
-                updateStats();
-                updateCodeDisplay();
-                updateMemoryInfo();
-            } else {
-                alert('الصيغة الصحيحة: إذا قال [كلمة] قل [رد]');
+                updateRemindersList();
+                document.getElementById('reminderText').value = '';
+                document.getElementById('reminderTime').value = '';
+                addMessage(`✅ تم إضافة تذكير: "${text}" في ${new Date(time).toLocaleString('ar-SA')}`, 'bot');
             }
         }
 
-        // إضافة أمثلة
-        function addExamples() {
-            knowledgeBase["السلام عليكم"] = "وعليكم السلام";
-            knowledgeBase["صباح الخير"] = "صباح النور";
-            knowledgeBase["مساء الخير"] = "مساء الورد";
-            knowledgeBase["كيف حالك"] = "الحمدلله";
-            knowledgeBase["أحبك"] = "وأنا أيضاً أحبك ❤️";
-            knowledgeBase["كم عمري"] = "عمرك 25 سنة";
-            knowledgeBase["ما اسمي"] = "اسمك " + (currentUser ? currentUser.name : "unknown");
+        // تحديث قائمة التذكيرات
+        function updateRemindersList() {
+            const list = document.getElementById('remindersList');
+            if (!list) return;
             
+            list.innerHTML = '';
+            const now = new Date();
+            
+            reminders.sort((a, b) => new Date(a.time) - new Date(b.time));
+            
+            reminders.forEach(reminder => {
+                const reminderTime = new Date(reminder.time);
+                if (reminderTime > now && !reminder.completed) {
+                    const div = document.createElement('div');
+                    div.className = 'reminder-item';
+                    div.innerHTML = `
+                        <span style="flex:1;">${reminder.text}</span>
+                        <span style="color:#FFD700;">${reminderTime.toLocaleString('ar-SA')}</span>
+                        <button onclick="deleteReminder(${reminder.id})">❌</button>
+                    `;
+                    list.appendChild(div);
+                }
+            });
+        }
+
+        // حذف تذكير
+        function deleteReminder(id) {
+            reminders = reminders.filter(r => r.id !== id);
             saveData();
-            addMessage("✅ تمت إضافة 7 أمثلة", 'bot');
-            updateStats();
-            updateCodeDisplay();
-            updateMemoryInfo();
+            updateRemindersList();
         }
 
-        // عرض الذاكرة
-        function showKnowledge() {
-            let text = "📚 **ذاكرتي:**\n\n";
-            let count = 0;
-            for (let key in knowledgeBase) {
-                text += `✨ "${key}" → "${knowledgeBase[key]}"\n`;
-                count++;
-                if (count > 50) {
-                    text += `\n... و ${Object.keys(knowledgeBase).length - 50} معلومة أخرى`;
-                    break;
-                }
-            }
-            text += `\n\n📊 المجموع: ${Object.keys(knowledgeBase).length} معلومة`;
-            text += `\n🧠 السعة: غير محدودة (${maxMemory.toLocaleString()} كحد أقصى نظري)`;
-            addMessage(text, 'bot');
-        }
-
-        // تحديث عرض الكود
-        function updateCodeDisplay() {
-            const codeDisplay = document.getElementById('codeDisplay');
-            let codeText = '';
-            let count = 0;
-            for (let key in knowledgeBase) {
-                codeText += `knowledgeBase["${key}"] = "${knowledgeBase[key]}";\n`;
-                count++;
-                if (count > 20) {
-                    codeText += `// ... و ${Object.keys(knowledgeBase).length - 20} معلومة أخرى`;
-                    break;
-                }
-            }
-            codeDisplay.textContent = codeText || '// معرفتك ستظهر هنا';
-        }
-
-        // تحديث معلومات الذاكرة
-        function updateMemoryInfo() {
-            const count = Object.keys(knowledgeBase).length;
-            const memoryInfo = document.getElementById('memoryInfo');
-            const percent = (count / maxMemory * 100).toFixed(4);
-            memoryInfo.innerHTML = `🧠 سعة غير محدودة: ${count.toLocaleString()} معلومة محفوظة (${percent}% من السعة النظرية)`;
-            
-            const statsSpan = document.getElementById('stats').querySelector('span:first-child');
-            statsSpan.innerHTML = `📚 تعلمت <span id="knowledgeCount">${count}</span> ${count === 1 ? 'معلومة' : 'معلومة'}`;
+        // بدء مراقبة التذكيرات
+        function startReminderChecker() {
+            if (reminderInterval) clearInterval(reminderInterval);
+            reminderInterval = setInterval(() => {
+                const now = new Date();
+                reminders.forEach(reminder => {
+                    const reminderTime = new Date(reminder.time);
+                    if (reminderTime <= now && !reminder.completed) {
+                        addMessage(`⏰ تذكير: ${reminder.text}`, 'bot');
+                        speak(`تذكير: ${reminder.text}`);
+                        reminder.completed = true;
+                        saveData();
+                    }
+                });
+                updateRemindersList();
+            }, 60000); // كل دقيقة
         }
 
         // حفظ البيانات
         function saveData() {
             if (currentUser) {
                 currentUser.knowledge = knowledgeBase;
+                currentUser.reminders = reminders;
                 localStorage.setItem('user_' + currentUser.phone, JSON.stringify(currentUser));
             }
         }
@@ -1234,6 +1281,7 @@
             document.getElementById('mainScreen').classList.add('hidden');
             document.getElementById('loginScreen').style.display = 'block';
             currentUser = null;
+            if (reminderInterval) clearInterval(reminderInterval);
         }
 
         // تبديل تبويبات التعليم
@@ -1241,17 +1289,13 @@
             document.querySelectorAll('.tab-premium').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            const tabs = document.querySelectorAll('.tab-premium');
-            let clickedTab;
-            if (tab === 'easy') clickedTab = tabs[0];
-            else if (tab === 'advanced') clickedTab = tabs[1];
-            else if (tab === 'code') clickedTab = tabs[2];
-            
-            clickedTab.classList.add('active');
-            document.getElementById(tab + 'Tab').classList.add('active');
-            
-            if (tab === 'code') {
-                updateCodeDisplay();
+            if (tab === 'easy') {
+                document.querySelectorAll('.tab-premium')[0].classList.add('active');
+                document.getElementById('easyTab').classList.add('active');
+            } else if (tab === 'reminders') {
+                document.querySelectorAll('.tab-premium')[1].classList.add('active');
+                document.getElementById('remindersTab').classList.add('active');
+                updateRemindersList();
             }
         }
 
@@ -1309,18 +1353,13 @@
                 document.querySelectorAll('.input-premium label')[1].innerHTML = '👤 Name';
                 document.querySelector('.login-premium-btn').textContent = 'Start Your Journey';
                 
-                document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 Easy';
-                document.querySelectorAll('.tab-premium')[1].innerHTML = '⚡ Advanced';
-                document.querySelectorAll('.tab-premium')[2].innerHTML = '💻 Code';
+                document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 Teach';
+                document.querySelectorAll('.tab-premium')[1].innerHTML = '⏰ Reminders';
                 
                 document.querySelector('.header-actions button:nth-child(1)').innerHTML = '🌐 EN/Ar';
                 
                 document.querySelector('.premium-btn[onclick="sendMessage()"]').textContent = 'Send';
-                document.querySelector('.premium-btn[onclick="showKnowledge()"]').textContent = '📖 Memory';
-                document.querySelector('.premium-btn[onclick="teachEasy()"]').textContent = 'Teach';
-                document.querySelector('.premium-btn.update-btn').innerHTML = '🔄 Update';
                 document.querySelector('.stats-premium span:last-child').innerHTML = '❤️ Cerebonix - Unlimited Memory';
-                document.getElementById('memoryInfo').innerHTML = '🧠 Unlimited capacity';
             } else {
                 document.querySelector('.logo-sub').textContent = 'صفحتك البيضاء';
                 document.querySelector('.welcome-premium p:first-child').textContent = 'أنا ذكاء اصطناعي';
@@ -1330,26 +1369,20 @@
                 document.querySelectorAll('.input-premium label')[1].innerHTML = '👤 الاسم';
                 document.querySelector('.login-premium-btn').textContent = 'ابدأ رحلتك';
                 
-                document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 سهل';
-                document.querySelectorAll('.tab-premium')[1].innerHTML = '⚡ متقدم';
-                document.querySelectorAll('.tab-premium')[2].innerHTML = '💻 كود';
+                document.querySelectorAll('.tab-premium')[0].innerHTML = '📚 تعليم';
+                document.querySelectorAll('.tab-premium')[1].innerHTML = '⏰ تذكيرات';
                 
                 document.querySelector('.header-actions button:nth-child(1)').innerHTML = '🌐 EN/عربي';
                 
                 document.querySelector('.premium-btn[onclick="sendMessage()"]').textContent = 'إرسال';
-                document.querySelector('.premium-btn[onclick="showKnowledge()"]').textContent = '📖 ذاكرتي';
-                document.querySelector('.premium-btn[onclick="teachEasy()"]').textContent = 'تعليم';
-                document.querySelector('.premium-btn.update-btn').innerHTML = '🔄 تحديث';
                 document.querySelector('.stats-premium span:last-child').innerHTML = '❤️ Cerebonix - ذاكرة غير محدودة';
-                
-                const count = Object.keys(knowledgeBase).length;
-                document.getElementById('memoryInfo').innerHTML = `🧠 سعة غير محدودة: ${count.toLocaleString()} معلومة محفوظة`;
             }
         }
 
         // بدء التشغيل
         createParticles();
         updateUILanguage('ar');
+        updateStats();
     </script>
 </body>
 </html>
