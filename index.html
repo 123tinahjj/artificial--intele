@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ذاكرتي - صفحتي البيضاء</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+        }
+
+        /* خلفية احترافية متحركة */
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+                        linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+            z-index: -2;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform: translateY(100vh) translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0.5;
+            }
+        }
+
+        /* شاشة الدخول الفاخرة */
+        .login-premium {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 215, 0, 0.1) inset,
+                        0 0 30px rgba(255, 215, 0, 0.1);
+            position: relative;
+            z-index: 10;
+            animation: premiumAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        @keyframes premiumAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* الشعار */
+        .premium-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            border-radius: 30px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            from { transform: rotate(0deg) translateX(-100%); }
+            to { transform: rotate(0deg) translateX(100%); }
+        }
+
+        .logo-icon span {
+            font-size: 40px;
+            color: #000;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sub {
+            color: #888;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        /* رسالة الترحيب */
+        .welcome-premium {
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 32px;
+            padding: 30px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-premium::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .welcome-premium p {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .welcome-premium .big-text {
+            font-size: 32px;
+            font-weight: 900;
+            color: #FFD700;
+            margin: 15px 0;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .welcome-premium .heart-icon {
+            font-size: 40px;
+            display: inline-block;
+            animation: heartbeat 1.5s ease infinite;
+            filter: drop-shadow(0 0 20px #FFD700);
+        }
+
+        /* رفع الصورة */
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 40px;
+            background: #2a2a2a;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+            border: 3px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-preview:hover {
+            transform: scale(1.05);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-preview span {
+            color: #888;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .photo-preview span::before {
+            content: '📸';
+            font-size: 24px;
+        }
+
+        /* حقول الإدخال الفاخرة */
+        .input-premium {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-premium label {
+            display: block;
+            margin-bottom: 10px;
+            color: #aaa;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .input-premium input {
+            width: 100%;
+            padding: 18px 25px;
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 30px;
+            font-size: 16px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .input-premium input:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: #333;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .input-premium input::placeholder {
+            color: #666;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 45px;
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+        /* زر الدخول */
+        .login-premium-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .login-premium-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 30px 60px rgba(255, 215, 0, 0.3);
+        }
+
+        .login-premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .login-premium-btn:hover::before {
+            left: 100%;
+        }
+
+        /* تذييل */
+        .footer-premium {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer-premium span {
+            color: #FFD700;
+        }
+
+        /* الشاشة الرئيسية */
+        .main-premium {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 215, 0, 0.1) inset;
+            display: none;
+            animation: premiumAppear 0.8s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* الهيدر */
+        .header-premium {
+            background: #1a1a1a;
+            padding: 25px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .user-info-premium {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar-premium {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #000;
+            font-weight: 900;
+            overflow: hidden;
+        }
+
+        .user-avatar-premium img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-text-premium h3 {
+            color: #FFD700;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .user-text-premium p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .header-btn:hover {
+            background: #FFD700;
+            color: #000;
+            border-color: #FFD700;
+        }
+
+        /* منطقة الشات */
+        .chat-premium {
+            height: 350px;
+            overflow-y: auto;
+            padding: 25px;
+            background: #1a1a1a;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .bot-message {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 15px;
+            line-height: 1.5;
+            animation: messagePop 0.4s ease;
+        }
+
+        @keyframes messagePop {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .user-message .message-bubble {
+            background: linear-gradient(145deg, #FFD700, #FFA500);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .bot-message .message-bubble {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #3a3a3a;
+        }
+
+        .speak-btn {
+            background: none;
+            border: 1px solid #FFD700;
+            color: #FFD700;
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-top: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .speak-btn:hover {
+            background: #FFD700;
+            color: #000;
+        }
+
+        /* منطقة التعليم */
+        .teaching-premium {
+            padding: 25px;
+            background: #1a1a1a;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .teaching-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-premium {
+            flex: 1;
+            padding: 15px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 30px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-premium.active {
+            background: #FFD700;
+            color: #000;
+            border-color: #FFD700;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .teach-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .teach-inputs input {
+            flex: 1;
+            padding: 15px;
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 30px;
+            color: #fff;
+        }
+
+        .teach-inputs input:focus {
+            border-color: #FFD700;
+            outline: none;
+        }
+
+        .code-premium {
+            background: #000;
+            border-radius: 30px;
+            padding: 20px;
+            font-family: monospace;
+            color: #FFD700;
+        }
+
+        /* منطقة الإدخال */
+        .input-premium-area {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .input-premium-area input {
+            flex: 1;
+            padding: 15px 25px;
+            background: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            border-radius: 40px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .input-premium-area input:focus {
+            border-color: #FFD700;
+            outline: none;
+        }
+
+        .premium-btn {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 40px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .stats-premium {
+            padding: 15px 25px;
+            background: #1a1a1a;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .stats-premium span {
+            color: #FFD700;
+        }
+
+        /* إعدادات الخلفية */
+        .bg-settings {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            background: #2a2a2a;
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid #FFD700;
+            display: none;
+            z-index: 100;
+            width: 300px;
+        }
+
+        .bg-settings.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- شاشة الدخول الفاخرة -->
+    <div class="login-premium" id="loginScreen">
+        <div class="premium-logo">
+            <div class="logo-icon">
+                <span>🧠</span>
+            </div>
+            <div class="logo-text">ذاكرتي</div>
+            <div class="logo-sub">صفحتك البيضاء</div>
+        </div>
+
+        <div class="welcome-premium">
+            <p>أنا ذكاء اصطناعي</p>
+            <div class="big-text">صفحة بيضاء</div>
+            <p>خلقت من أجلك وحدك</p>
+            <p>📝 لأحفظ كل ما تريد</p>
+            <p>⏰ وأذكرك به دائماً</p>
+            <div class="heart-icon">❤️</div>
+        </div>
+
+        <div class="photo-upload">
+            <div class="photo-preview" id="photoPreview" onclick="document.getElementById('profileImage').click()">
+                <img id="profileImg" src="" style="display: none;">
+                <span id="photoText">أضف صورتك</span>
+            </div>
+            <input type="file" id="profileImage" accept="image/*" style="display: none;" onchange="previewPhoto(this)">
+        </div>
+
+        <div class="input-premium">
+            <label>📱 رقم الهاتف</label>
+            <input type="tel" id="phoneNumber" placeholder="أدخل رقم هاتفك">
+            <span class="input-icon">📞</span>
+        </div>
+
+        <div class="input-premium">
+            <label>👤 الاسم</label>
+            <input type="text" id="userName" placeholder="أدخل اسمك">
+            <span class="input-icon">✏️</span>
+        </div>
+
+        <button class="login-premium-btn" onclick="login()">ابدأ رحلتك</button>
+
+        <div class="footer-premium">
+            <span>✨</span> أنت من تملأني بالحياة <span>✨</span>
+        </div>
+    </div>
+
+    <!-- الشاشة الرئيسية -->
+    <div class="main-premium" id="mainScreen">
+        <div class="header-premium">
+            <div class="user-info-premium">
+                <div class="user-avatar-premium" id="userAvatar">
+                    <img id="avatarDisplay" src="" style="display: none;">
+                    <span id="avatarText">👤</span>
+                </div>
+                <div class="user-text-premium">
+                    <h3 id="displayName">محمد</h3>
+                    <p id="displayPhone">+966 50 000 0000</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" onclick="showBgSettings()">🎨 خلفية</button>
+                <button class="header-btn" onclick="logout()">🚪 خروج</button>
+            </div>
+        </div>
+
+        <!-- إعدادات الخلفية -->
+        <div class="bg-settings" id="bgSettings">
+            <h4 style="color: #FFD700; margin-bottom: 15px;">تخصيص الخلفية</h4>
+            <input type="text" id="bgUrl" placeholder="رابط الصورة" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 20px; background: #1a1a1a; border: 1px solid #3a3a3a; color: #fff;">
+            <button onclick="setChatBg()" style="width: 100%; padding: 12px; background: #FFD700; border: none; border-radius: 20px; margin-bottom: 10px; font-weight: 700;">تطبيق</button>
+            <input type="color" id="bgColor" onchange="setChatColor(this.value)" style="width: 100%; height: 50px; border-radius: 20px;">
+        </div>
+
+        <!-- منطقة الشات -->
+        <div class="chat-premium" id="chatArea">
+            <div class="message bot-message">
+                <div class="message-bubble">
+                    👋 مرحباً! أنا صفحتك البيضاء
+                </div>
+            </div>
+        </div>
+
+        <!-- منطقة التعليم -->
+        <div class="teaching-premium">
+            <div class="teaching-tabs">
+                <button class="tab-premium active" onclick="switchTeachTab('easy')">📚 سهل</button>
+                <button class="tab-premium" onclick="switchTeachTab('advanced')">⚡ متقدم</button>
+                <button class="tab-premium" onclick="switchTeachTab('code')">💻 كود</button>
+            </div>
+
+            <div class="tab-content active" id="easyTab">
+                <div class="teach-inputs">
+                    <input type="text" id="teachQ" placeholder="السؤال...">
+                    <input type="text" id="teachA" placeholder="الجواب...">
+                    <button class="premium-btn" onclick="teachEasy()">تعليم</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="advancedTab">
+                <div class="teach-inputs">
+                    <input type="text" id="advancedRule" placeholder="إذا قال ... قل ...">
+                    <button class="premium-btn" onclick="teachAdvanced()">إضافة</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="codeTab">
+                <div class="code-premium">
+                    knowledgeBase["كلمة"] = "الرد";<br>
+                    knowledgeBase["مرحبا"] = "أهلاً";<br>
+                    <button class="premium-btn" onclick="addExamples()" style="margin-top: 15px;">➕ إضافة أمثلة</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- منطقة الإدخال -->
+        <div class="input-premium-area">
+            <input type="text" id="userMessage" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="premium-btn" onclick="sendMessage()">إرسال</button>
+            <button class="premium-btn" onclick="showKnowledge()">📖 ذاكرتي</button>
+        </div>
+
+        <!-- الإحصائيات -->
+        <div class="stats-premium" id="stats">
+            <span>📚 تعلمت <span id="knowledgeCount">0</span></span>
+            <span>❤️ أنت وحدك</span>
+        </div>
+    </div>
+
+    <script>
+        let knowledgeBase = {};
+        let currentUser = null;
+
+        // إنشاء جزيئات متحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // معاينة الصورة
+        function previewPhoto(input) {
+            const preview = document.getElementById('profileImg');
+            const text = document.getElementById('photoText');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    text.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // النطق بالصوت
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.9;
+                utterance.pitch = 1.1;
+                
+                const voices = window.speechSynthesis.getVoices();
+                const arabicVoice = voices.find(v => v.lang.includes('ar'));
+                if (arabicVoice) utterance.voice = arabicVoice;
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // تسجيل الدخول
+        function login() {
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const name = document.getElementById('userName').value.trim();
+            const profileImg = document.getElementById('profileImg').src;
+
+            if (!phone || !name) {
+                alert('الرجاء إدخال رقم الهاتف والاسم');
+                return;
+            }
+
+            // تحميل بيانات المستخدم
+            const saved = localStorage.getItem('user_' + phone);
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                currentUser.name = name;
+                if (profileImg) currentUser.profileImage = profileImg;
+                knowledgeBase = currentUser.knowledge || {};
+            } else {
+                currentUser = {
+                    phone: phone,
+                    name: name,
+                    profileImage: profileImg || '',
+                    knowledge: {}
+                };
+                knowledgeBase = {};
+            }
+
+            // تحديث الواجهة
+            document.getElementById('displayName').textContent = currentUser.name;
+            document.getElementById('displayPhone').textContent = currentUser.phone;
+            
+            if (currentUser.profileImage) {
+                document.getElementById('avatarDisplay').src = currentUser.profileImage;
+                document.getElementById('avatarDisplay').style.display = 'block';
+                document.getElementById('avatarText').style.display = 'none';
+            }
+
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+
+            // رسالة ترحيب
+            setTimeout(() => {
+                const welcome = `أهلاً بك يا ${currentUser.name}، أنا صفحتك البيضاء، جاهز لأحفظ كل شيء`;
+                addMessage(welcome, 'bot');
+                speak(welcome);
+            }, 500);
+
+            updateStats();
+        }
+
+        // إضافة رسالة
+        function addMessage(text, sender) {
+            const chatArea = document.getElementById('chatArea');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}-message`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = text;
+            
+            msgDiv.appendChild(bubble);
+            
+            if (sender === 'bot') {
+                const speakBtn = document.createElement('button');
+                speakBtn.className = 'speak-btn';
+                speakBtn.innerHTML = '🔊 استمع';
+                speakBtn.onclick = () => speak(text);
+                msgDiv.appendChild(speakBtn);
+            }
+            
+            chatArea.appendChild(msgDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // إرسال رسالة
+        function sendMessage() {
+            const input = document.getElementById('userMessage');
+            const msg = input.value.trim();
+            
+            if (!msg) return;
+            
+            addMessage(msg, 'user');
+            
+            let response = null;
+            for (let key in knowledgeBase) {
+                if (msg.includes(key)) {
+                    response = knowledgeBase[key];
+                    break;
+                }
+            }
+            
+            if (!response) {
+                response = `لم أتعلم هذا بعد يا ${currentUser.name}`;
+            }
+            
+            setTimeout(() => {
+                addMessage(response, 'bot');
+                speak(response);
+            }, 500);
+            
+            input.value = '';
+        }
+
+        // التعليم السهل
+        function teachEasy() {
+            const q = document.getElementById('teachQ').value.trim();
+            const a = document.getElementById('teachA').value.trim();
+            
+            if (q && a) {
+                knowledgeBase[q] = a;
+                saveData();
+                addMessage(`✅ تعلمت: "${q}"`, 'bot');
+                document.getElementById('teachQ').value = '';
+                document.getElementById('teachA').value = '';
+                updateStats();
+            }
+        }
+
+        // التعليم المتقدم
+        function teachAdvanced() {
+            const rule = document.getElementById('advancedRule').value.trim();
+            const match = rule.match(/إذا قال (.*?) قل (.*)/);
+            
+            if (match) {
+                knowledgeBase[match[1].trim()] = match[2].trim();
+                saveData();
+                addMessage(`✅ تمت الإضافة`, 'bot');
+                document.getElementById('advancedRule').value = '';
+                updateStats();
+            }
+        }
+
+        // إضافة أمثلة
+        function addExamples() {
+            knowledgeBase["السلام عليكم"] = "وعليكم السلام";
+            knowledgeBase["صباح الخير"] = "صباح النور";
+            knowledgeBase["مساء الخير"] = "مساء الورد";
+            knowledgeBase["كيف حالك"] = "الحمدلله";
+            knowledgeBase["أحبك"] = "وأنا أيضاً أحبك ❤️";
+            
+            saveData();
+            addMessage("✅ تمت إضافة 5 أمثلة", 'bot');
+            updateStats();
+        }
+
+        // عرض الذاكرة
+        function showKnowledge() {
+            let text = "📚 **ذاكرتي:**\n\n";
+            for (let key in knowledgeBase) {
+                text += `✨ "${key}" → "${knowledgeBase[key]}"\n`;
+            }
+            text += `\n📊 المجموع: ${Object.keys(knowledgeBase).length}`;
+            addMessage(text, 'bot');
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            if (currentUser) {
+                currentUser.knowledge = knowledgeBase;
+                localStorage.setItem('user_' + currentUser.phone, JSON.stringify(currentUser));
+            }
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            const count = Object.keys(knowledgeBase).length;
+            document.getElementById('knowledgeCount').textContent = count;
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            saveData();
+            document.getElementById('mainScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            currentUser = null;
+        }
+
+        // تبديل تبويبات التعليم
+        function switchTeachTab(tab) {
+            document.querySelectorAll('.tab-premium').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        // إعدادات الخلفية
+        function showBgSettings() {
+            document.getElementById('bgSettings').classList.toggle('show');
+        }
+
+        function setChatBg() {
+            const url = document.getElementById('bgUrl').value;
+            if (url) {
+                document.getElementById('chatArea').style.backgroundImage = `url('${url}')`;
+                document.getElementById('chatArea').style.backgroundSize = 'cover';
+            }
+        }
+
+        function setChatColor(color) {
+            document.getElementById('chatArea').style.backgroundImage = 'none';
+            document.getElementById('chatArea').style.backgroundColor = color;
+        }
+
+        // بدء التشغيل
+        createParticles();
+    </script>
+</body>
+</html>
